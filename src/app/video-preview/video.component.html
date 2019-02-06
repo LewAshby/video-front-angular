@@ -1,0 +1,54 @@
+<div class="main-grids">
+  <div class="top-grids">
+    <div class="recommended-info">
+      <h3>Videos</h3>
+    </div>
+
+    <div *ngFor="let video of videos">
+      <div>
+        <div class="col-md-3 resent-grid recommended-grid"  *ngIf="video.tipo.name === actual_type || actual_type === undefined">
+          <div class="resent-grid-img recommended-grid-img">
+            <a (click)="changeMenu(video.tipo.name)" [routerLink]="['/video', video.nombre]">
+              <img src="{{videoService.getUrl()}}/{{video.thumbnail}}" alt="" width="260" height="180"/>
+            </a>
+            <div class="time small-time slider-time">
+              <p>{{video.duration}}</p>
+            </div>
+            <div class="clck small-clck">
+              <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="resent-grid-info recommended-grid-info">
+            <h5><a (click)="changeMenu(video.tipo.name)" class="title" [routerLink]="['/video', video.nombre]">{{video.nombre}}</a></h5>
+            <div class="slid-bottom-grids">
+              <div class="slid-bottom-grid">
+                <p class="author author-info"><a [routerLink]="['/main', video.tipo.name]" class="type">{{video.tipo.name}}</a></p>
+              </div>
+              <div class="slid-bottom-grid slid-bottom-right">
+                <p class="views views-info">{{video.vistas}} visitas</p>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="main-grids">
+  <div class="top-grids">
+      
+      
+
+  </div>
+</div>-->
+
+
+<div class="jumbotron" *ngIf="errorMsg">
+  <div class="container">
+    <h1>Upss something went wrong... :(</h1>
+    <p>{{errorMsg}}</p>
+  </div>
+</div>

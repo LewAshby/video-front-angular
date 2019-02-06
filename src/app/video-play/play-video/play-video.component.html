@@ -1,0 +1,63 @@
+<div class="jumbotron" *ngIf="errorMsg">
+      <div class="container">
+        <h1>Error</h1>
+        <p>Upss something went wrong...</p>
+        <p>{{errorMsg}}</p>
+      </div>
+    </div>
+		<div class="song" *ngIf="playVideo">
+			<div class="song-info">
+				<h3>{{playVideo.nombre}}</h3>
+			</div>
+			<div class="video-grid">
+				<vg-player>
+          <vg-overlay-play></vg-overlay-play>
+            <div>
+              <!-- se puede meter dentro de vg-controls y sustituirlo por el vg-scrub-bar que esta ahi
+              [vgSlider]="true" -->
+              <vg-scrub-bar>
+                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+              </vg-scrub-bar>
+              <!---->
+              <vg-controls vgAutohide="true" vgAutohideTime="5.0">
+                <vg-play-pause ></vg-play-pause>
+                <vg-playback-button></vg-playback-button>
+
+                <vg-time-display vgProperty="current" vgFormat="mm:ss">
+                  <vg-scrub-bar></vg-scrub-bar>
+                  <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+                </vg-time-display>
+
+
+                <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+
+                <!--<vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+                <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>-->
+
+                <vg-mute></vg-mute>
+                <vg-volume></vg-volume>
+
+                <vg-fullscreen></vg-fullscreen>
+              </vg-controls>
+            </div>
+          <!-- <video [vgMedia]="media" #media id="singleVideo" preload="auto" src="{{videoService.getUrl()}}/{{playVideo.ruta}}"> -->
+          <video [vgMedia]="media" #media id="singleVideo" preload="auto" src="{{playVideo.ruta}}">
+          </video>
+				</vg-player>
+			</div>
+
+
+			<div class="clearfix"> </div>
+
+			<div class="published" *ngIf="playVideo">
+				<h4>
+          <!--<a class="col-md-10" href="{{videoService.getUrl()}}/downloadVideo/{{videoService.getVideoId()}}"><i class="glyphicon glyphicon-download-alt"></i> Descargar</a>-->
+          <a class="col-md-10" href="{{downloadPath}}" target="_blank" rel="noopener noreferrer"><i class="glyphicon glyphicon-download-alt"></i> Descargar</a>
+          {{playVideo.vistas + 1}} visitas
+        </h4>
+			</div>
+
+			<uo-comments-video></uo-comments-video>
+
+		</div>

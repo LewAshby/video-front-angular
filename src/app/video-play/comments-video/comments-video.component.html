@@ -1,0 +1,38 @@
+<div class="all-comments">
+	<div class="all-comments-info">
+		<p href="#">Comentarios ({{videoService.getCantComments()}})</p>
+	</div>
+
+	<div class="media-grids">
+		
+    <div *ngIf="comments">
+      <div *ngFor="let comment of comments | async">
+        <div class="media">
+          <h5>{{comment.username}}</h5>
+          <div class="media-left">
+            <a>
+            </a>
+          </div>
+          <div class="media-body">
+            <p>{{comment.comment}}</p>
+            <span>Contacto :<a href="#"> {{comment.email}} </a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	</div>
+
+  <div class="clearfix"></div>
+
+  <div class="box">
+    <form [formGroup]="commentGroup" (ngSubmit)="onSubmit(commentGroup.value)">
+      <input class="form-control" type="text" placeholder="Nombre" [formControl]="commentGroup.controls['username']">
+      <input class="form-control" type="text" placeholder="Correo" [formControl]="commentGroup.controls['email']">
+      <textarea class="form-control" placeholder="Comentario" [formControl]="commentGroup.controls['comment']"></textarea>
+      <input type="submit" value="Enviar">
+      <div class="clearfix"> </div>
+    </form>
+  </div>
+
+</div>

@@ -1,0 +1,78 @@
+<div class="show-top-grids">
+	<div class="main-grids news-main-grids">
+    
+    
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand"></a>
+      </div>
+    
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Filtrar <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a [routerLink]="[term]">Todo</a></li>
+              <li><a [routerLink]="[term, 'tv']">Televisión</a></li>
+              <li><a [routerLink]="[term, 'cine']">Cine</a></li>
+              <li><a [routerLink]="[term, 'deportes']">Deportes</a></li>
+              <li><a [routerLink]="[term, 'musica']">Música</a></li>
+              <li><a [routerLink]="[term, 'miscelaneas']">Misceláneas</a></li>
+            </ul>
+          </div>
+        </form>
+
+        <li *ngIf="filter"><a class="search-filter">Solo ({{filter}})</a></li>
+
+        </ul>
+
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-5">
+            <h4 class="navbar-text navbar-right" *ngIf="videosResult">Resultados ({{getCantResult(filter)}}) </h4>
+          </div>
+          
+        
+      </div><!-- /.navbar-collapse -->
+    </nav>
+    
+    
+
+		<div class="recommended-info">
+			<h3>Buscar "{{route.snapshot.params['searchTerm']}}"</h3>
+			<div *ngIf="videosResult">
+				<div *ngFor="let video of videosResult">
+					<div class="media" *ngIf="video.tipo.name === filter || filter === undefined">
+						<a class="pull-left" [routerLink]="['/video', video.nombre]">
+							<img class="media-object" src="{{videoService.getUrl()}}/{{video.thumbnail}}" alt="Image" width="240" height="150">
+						</a>
+						<div class="media-body">
+							<a [routerLink]="['/video', video.nombre]"><h4 class="media-heading">{{video.nombre}}</h4></a>
+							<a [routerLink]="['/main', video.tipo.name]"><p>{{video.tipo.name}}</p></a>
+							<p>{{video.vistas}} visitas</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</div>
+</div>
+
+<div class="jumbotron" *ngIf="errorMsg">
+  <div class="container">
+    <h1>Upss something went wrong...</h1>
+    <p>{{errorMsg}}</p>
+  </div>
+</div>
+

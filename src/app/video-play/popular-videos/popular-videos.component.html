@@ -1,0 +1,15 @@
+<div class="single-grid-right">
+	<div *ngIf="thumbVideos">
+		<div class="single-right-grids" *ngFor="let video of thumbVideos">
+			<div class="col-md-4 single-right-grid-left">
+				<a (click)="changeMenu(video.tipo.name)" [routerLink]="['/video', video.nombre]"><img src="{{videoService.getUrl()}}/{{video.thumbnail}}" alt="" /></a>
+			</div>
+			<div class="col-md-8 single-right-grid-right">
+				<a (click)="changeMenu(video.tipo.name)" [routerLink]="['/video', video.nombre]" class="title"> {{video.nombre}}</a>
+				<p class="author"><a [routerLink]="['/main', video.tipo.name]" class="author">{{video.tipo.name}}</a></p>
+				<p class="views">{{video.vistas}} visitas</p>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+</div>
