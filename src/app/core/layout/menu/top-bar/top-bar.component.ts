@@ -26,7 +26,7 @@ export class TopBarComponent implements OnInit {
       .subscribe(search => {
         this.videoService.searchVideo(search['searchTerm'])
           .subscribe(result => {
-            console.log(result);
+            // console.log(result);
             this.searchResults = result;
           });
     });
@@ -47,6 +47,10 @@ export class TopBarComponent implements OnInit {
   toggleMenu() {
     console.log('click!!');
     console.log(this.elem.nativeElement.querySelector('#wrapper'));
+  }
+
+  clearSearch() {
+    this.search.reset();
   }
 
 }

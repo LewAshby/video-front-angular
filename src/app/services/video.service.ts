@@ -10,7 +10,9 @@ import 'rxjs/Rx';
 @Injectable()
 export class VideoService {
 
-  private url = 'http://localhost:1337';
+  // private url = 'http://localhost:1337';
+  private url = 'http://10.30.5.210:8000';
+  private assets = 'http://10.30.5.210';
 
   // menu
   private emitChangeSource = new Subject<any>();
@@ -36,14 +38,19 @@ export class VideoService {
     return this.url;
   }
 
+  public getAssets(): string {
+    return this.assets;
+  }
+
   public getVideoId(): string {
     return this.videoId;
   }
 
   public getVideoAll(): Observable<Video[]> {
-    return this.http.get(`${this.url}/get_videosAll`)
+    return this.http.get(`${this.url}/api/video/all`)
       .map((response: Response) => {
-        return (<any>response.json())['videos'].map(item => {
+        return (<any>response.json())['results'].map(item => {
+          console.log(item)
           return new Video(item);
         });
       })
@@ -51,13 +58,13 @@ export class VideoService {
   }
 
   public getVideoByName(name: string): Observable<Video> {
-    return this.http.get(`${this.url}/get_videoByName?name=${name}`)
+    return this.http.get(`${this.url}/api/video/all/${name}`)
       .map((response: Response) => {
          // return new Video((<any>response.json())['requestedVideo']);
-         this.dataComments.comments = (<any>response.json())['requestedVideo']['commentsList'];
+         this.dataComments.comments = (<any>response.json())['comments'];
          this.comments.next(Object.assign({}, this.dataComments).comments);
-         this.videoId = (<any>response.json())['requestedVideo']['id'];
-         return (<any>response.json())['requestedVideo'];
+         this.videoId = (<any>response.json())['id'];
+         return (<any>response.json());
       })
       .catch(this._errorHandler);
   }
@@ -84,7 +91,7 @@ export class VideoService {
     const headers = new Headers({ 'Content-Type': 'application/json'});
     const options = new RequestOptions({ headers: headers, method: 'post' });
 
-    this.http.post(`${this.url}/post_Comment`, comment, options)
+    this.http.post(`${this.url}/api/video/comment/`, comment, options)
       .map(response => response.json())
         .subscribe(data => {
           if ( data['success'] ===  true ) {
@@ -96,18 +103,22 @@ export class VideoService {
   }
 
   public searchVideo(term: string): Observable<Video[]> {
-    return this.http.get(`${this.url}/searchVideos?searchTerm=${term}`)
-      .map((response: Response) => {
-        return (<any>response.json())['videos'].map(item => {
-          return new Video(item);
+    if (term != ' '){
+      return this.http.get(`${this.url}/api/video/all/search/${term}`)
+      // return this.http.get(`${this.url}/searchVideos?searchTerm=${term}`)
+        .map((response: Response) => {
+          console.log(response);
+          return (<any>response.json())['results'].map(item => {
+            return new Video(item);
+          });
         });
-      });
+    }
   }
 
   public getMostPoplular(): Observable<Video[]> {
-    return this.http.get(`${this.url}/get_MostPopular`)
+    return this.http.get(`${this.url}/api/video/all/popular`)
     .map((response: Response) => {
-        return (<any>response.json())['videos'].map(item => {
+        return (<any>response.json())['results'].map(item => {
           return new Video(item);
         });
       });

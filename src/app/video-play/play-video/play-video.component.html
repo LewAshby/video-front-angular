@@ -24,16 +24,16 @@
                 <vg-play-pause ></vg-play-pause>
                 <vg-playback-button></vg-playback-button>
 
-                <vg-time-display vgProperty="current" vgFormat="mm:ss">
+                <!-- <vg-time-display vgProperty="current" vgFormat="hh:mm:ss">
                   <vg-scrub-bar></vg-scrub-bar>
-                  <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
-                </vg-time-display>
+                  <vg-time-display vgProperty="total" vgFormat="hh:mm:ss"></vg-time-display>
+                </vg-time-display> -->
 
 
                 <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
 
-                <!--<vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
-                <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>-->
+                <vg-time-display vgProperty="current" vgFormat="hh:mm:ss"></vg-time-display>
+                <vg-time-display vgProperty="total" vgFormat="hh:mm:ss"></vg-time-display>
 
                 <vg-mute></vg-mute>
                 <vg-volume></vg-volume>
@@ -42,7 +42,9 @@
               </vg-controls>
             </div>
           <!-- <video [vgMedia]="media" #media id="singleVideo" preload="auto" src="{{videoService.getUrl()}}/{{playVideo.ruta}}"> -->
-          <video [vgMedia]="media" #media id="singleVideo" preload="auto" src="{{playVideo.ruta}}">
+          <video [vgMedia]="media" #media id="singleVideo" preload="auto">
+            <source src="{{playVideo.ruta}}">
+            <track kind="subtitles" label="subtítulo" src="{{videoService.getAssets()}}/{{playVideo.subtitle}}" srclang="en" default>
           </video>
 				</vg-player>
 			</div>
@@ -54,7 +56,7 @@
 				<h4>
           <!--<a class="col-md-10" href="{{videoService.getUrl()}}/downloadVideo/{{videoService.getVideoId()}}"><i class="glyphicon glyphicon-download-alt"></i> Descargar</a>-->
           <a class="col-md-10" href="{{downloadPath}}" target="_blank" rel="noopener noreferrer"><i class="glyphicon glyphicon-download-alt"></i> Descargar</a>
-          {{playVideo.vistas + 1}} visitas
+          {{playVideo.vistas}} visitas
         </h4>
 			</div>
 

@@ -7,7 +7,9 @@ export class Video {
   uploadedDate: string;
   duration: string;
   vistas: string;
-  ruta: string
+  ruta: string;
+  year: string;
+  subtitle: string
 
   constructor(obj?: any) {
     this.id = obj && obj.id || null;
@@ -18,5 +20,7 @@ export class Video {
     this.duration = obj && obj.time || null;
     this.vistas = obj && obj.views || 0;
     this.ruta = obj && obj.path || null;
+    this.year = obj && obj.year || null;
+    this.subtitle = obj && obj.subtitle || null;
   }
 }

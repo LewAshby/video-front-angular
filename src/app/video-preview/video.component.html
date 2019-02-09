@@ -9,7 +9,7 @@
         <div class="col-md-3 resent-grid recommended-grid"  *ngIf="video.tipo.name === actual_type || actual_type === undefined">
           <div class="resent-grid-img recommended-grid-img">
             <a (click)="changeMenu(video.tipo.name)" [routerLink]="['/video', video.nombre]">
-              <img src="{{videoService.getUrl()}}/{{video.thumbnail}}" alt="" width="260" height="180"/>
+              <img src="{{videoService.getAssets()}}/{{video.thumbnail}}" alt="" width="260" height="180"/>
             </a>
             <div class="time small-time slider-time">
               <p>{{video.duration}}</p>

@@ -22,7 +22,7 @@
             <ul class="list-group" *ngFor="let video of searchResults">
               <li class="list-group-item" style="display: flex; flex-direction: row;">
                 <!-- <a [routerLink]="['/video', video.nombre]"><img class="list-group-item" src="{{videoService.getUrl()}}/{{video.thumbnail}}" width="50" height="50"></a> -->
-                <a [routerLink]="['/video', video.nombre]" class="list-group-item-text">{{video.nombre}}</a>
+                <a [routerLink]="['/video', video.nombre]" (click)="clearSearch()" class="list-group-item-text">{{video.nombre}}</a>
               </li>
               
             </ul>
