@@ -10,9 +10,8 @@ import 'rxjs/Rx';
 @Injectable()
 export class VideoService {
 
-  // private url = 'http://localhost:1337';
-  private url = 'http://10.30.5.210:8000';
-  private assets = 'http://10.30.5.210';
+  private url = '';
+  private assets = '';
 
   // menu
   private emitChangeSource = new Subject<any>();
