@@ -10,8 +10,6 @@ import 'rxjs/Rx';
 @Injectable()
 export class VideoService {
 
-  // private url = 'http://10.30.5.210:8000';
-  // private assets = 'http://10.30.5.210';
   private url = 'http://127.0.0.1:8000';
   private assets = 'http://127.0.0.1';
 
@@ -19,6 +17,7 @@ export class VideoService {
   private currentPage: string;
   private nextPage: string;
   private previousPage: string;
+  
 
   // menu
   private emitChangeSource = new Subject<any>();
