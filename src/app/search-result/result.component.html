@@ -55,7 +55,7 @@
 				<div *ngFor="let video of videosResult">
 					<div class="media" *ngIf="video.tipo.name === filter || filter === undefined">
 						<a class="pull-left" [routerLink]="['/video', video.nombre]">
-							<img class="media-object" src="{{videoService.getUrl()}}/{{video.thumbnail}}" alt="Image" width="240" height="150">
+							<img class="media-object" src="{{videoService.getAssets()}}/{{video.thumbnail}}" alt="Image" width="240" height="150">
 						</a>
 						<div class="media-body">
 							<a [routerLink]="['/video', video.nombre]"><h4 class="media-heading">{{video.nombre}}</h4></a>
@@ -65,7 +65,19 @@
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>
+
+    <nav *ngIf="videosResult">
+      <ul class="pager">
+        <li *ngIf="videoService.getPreviousPage() !== null" (click)="navigatePaginator('previous')">
+          <a [routerLink]="">anterior</a>
+        </li>
+        <li *ngIf="videoService.getNextPage() !== null" (click)="navigatePaginator('next')">
+          <a [routerLink]="">siguiente</a>
+        </li>
+      </ul>
+    </nav>
+
 	</div>
 </div>
 

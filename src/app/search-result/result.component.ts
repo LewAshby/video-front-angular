@@ -22,7 +22,7 @@ export class ResultComponent implements OnInit {
     this.route.params.subscribe(url => {
       this.filter = url['tipo'];
       this.term = '/search/' + url['searchTerm'];
-      this.videoService.searchVideo(url['searchTerm'])
+      this.videoService.searchVideo(url['searchTerm'], "all")
         .subscribe(vids => {
           this.videosResult = vids;
         },
@@ -40,4 +40,26 @@ export class ResultComponent implements OnInit {
     this.videoService.changeMenuType(tipo);
     return cont;
   }
+
+  navigatePaginator(direction: string) {    
+    this.route.params.subscribe(url => {
+      this.filter = url['tipo'];
+      this.term = '/search/' + url['searchTerm'];
+      if (direction === "next") {
+        this.videoService.searchVideo("", "next")
+          .subscribe(vids => {
+            this.videosResult = vids;
+          },
+            searchError => this.errorMsg = searchError);
+      }
+      else if (direction === "previous"){
+        this.videoService.searchVideo("", "previous")
+          .subscribe(vids => {
+            this.videosResult = vids;
+          },
+            searchError => this.errorMsg = searchError);
+      }
+    });
+  }
+  
 }

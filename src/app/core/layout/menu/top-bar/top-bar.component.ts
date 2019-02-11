@@ -24,7 +24,7 @@ export class TopBarComponent implements OnInit {
   ngOnInit() {
     this.search.valueChanges
       .subscribe(search => {
-        this.videoService.searchVideo(search['searchTerm'])
+        this.videoService.searchVideo(search['searchTerm'], "preview")
           .subscribe(result => {
             // console.log(result);
             this.searchResults = result;

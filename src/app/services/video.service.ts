@@ -10,9 +10,15 @@ import 'rxjs/Rx';
 @Injectable()
 export class VideoService {
 
-  // private url = 'http://localhost:1337';
-  private url = 'http://10.30.5.210:8000';
-  private assets = 'http://10.30.5.210';
+  // private url = 'http://10.30.5.210:8000';
+  // private assets = 'http://10.30.5.210';
+  private url = 'http://127.0.0.1:8000';
+  private assets = 'http://127.0.0.1';
+
+  private countResult: string;
+  private currentPage: string;
+  private nextPage: string;
+  private previousPage: string;
 
   // menu
   private emitChangeSource = new Subject<any>();
@@ -50,7 +56,16 @@ export class VideoService {
     return this.http.get(`${this.url}/api/video/all`)
       .map((response: Response) => {
         return (<any>response.json())['results'].map(item => {
-          console.log(item)
+          return new Video(item);
+        });
+      })
+      .catch(this._errorHandler);
+  }
+
+  public getVideoAllByType(video_type: string): Observable<Video[]> {
+    return this.http.get(`${this.url}/api/video/all/${video_type}`)
+      .map((response: Response) => {
+        return (<any>response.json())['results'].map(item => {
           return new Video(item);
         });
       })
@@ -73,15 +88,6 @@ export class VideoService {
     return this.dataComments.comments.length;
   }
 
-  /*public getVideoComments(video: string): Observable<Comment[]> {
-    return this.http.get(`http://localhost/Angular/canalUO/src/app/video/sql_connection/get_videoComments.php?video="${video}"`)
-      .map((response: Response) => {
-        return (<any>response.json()).map(item => {
-          return new Comment(item);
-        });
-      });
-  }*/
-
   public changeMenuType(type: string): void {
     this.emitChangeSource.next(type || 'principal');
   }
@@ -102,16 +108,77 @@ export class VideoService {
         });
   }
 
-  public searchVideo(term: string): Observable<Video[]> {
+  public getCountResult() {
+    return this.countResult;
+  }
+
+  public getCurrentPage() {
+    return this.currentPage
+  }
+
+  public setCurrentPage(url: string) {
+    this.currentPage = url;
+  }
+
+  public getPreviousPage() {
+    return this.previousPage
+  }
+
+  public setPreviousPage(url: string) {
+    this.previousPage = url;
+  }
+
+  public getNextPage() {
+    return this.nextPage;
+  }
+
+  public set setNextPage(url: string) {
+    this.nextPage = url;
+  }
+
+  public searchVideo(term: string, request_type: string): Observable<Video[]> {
     if (term != ' '){
-      return this.http.get(`${this.url}/api/video/all/search/${term}`)
-      // return this.http.get(`${this.url}/searchVideos?searchTerm=${term}`)
+      if (request_type === "preview"){
+        return this.http.get(`${this.url}/api/video/all/searchpreview/${term}`)
         .map((response: Response) => {
-          console.log(response);
           return (<any>response.json())['results'].map(item => {
             return new Video(item);
           });
         });
+      }
+      else if (request_type === "all") {
+        return this.http.get(`${this.url}/api/video/all/search/${term}`)
+        .map((response: Response) => {
+          this.countResult = <any>response.json()['count'];
+          this.previousPage = <any>response.json()['previous'];
+          this.nextPage = <any>response.json()['next'];
+          return (<any>response.json())['results'].map(item => {
+            return new Video(item);
+          });
+        });
+      }
+      else if (request_type === "previous") {
+        return this.http.get(`${this.previousPage}`)
+        .map((response: Response) => {
+          this.countResult = <any>response.json()['count'];
+          this.previousPage = <any>response.json()['previous'];
+          this.nextPage = <any>response.json()['next'];
+          return (<any>response.json())['results'].map(item => {
+            return new Video(item);
+          });
+        });
+      }
+      else if (request_type === "next") {
+        return this.http.get(`${this.nextPage}`)
+        .map((response: Response) => {
+          this.countResult = <any>response.json()['count'];
+          this.previousPage = <any>response.json()['previous'];
+          this.nextPage = <any>response.json()['next'];
+          return (<any>response.json())['results'].map(item => {
+            return new Video(item);
+          });
+        });
+      }
     }
   }
 

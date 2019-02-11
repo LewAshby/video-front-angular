@@ -11,6 +11,7 @@ import { VideoService } from '../services/video.service';
 export class VideoComponent implements OnInit {
 
   videos: Video[];
+  videosTv: Video[];
   actual_type: string;
   errorMsg: string;
 
@@ -25,6 +26,12 @@ export class VideoComponent implements OnInit {
     this.videoService.getVideoAll()
       .subscribe(result => {
         this.videos = result;
+      },
+      videoError => this.errorMsg = videoError);
+
+      this.videoService.getVideoAllByType('tv')
+      .subscribe(result => {
+        this.videosTv = result;
       },
       videoError => this.errorMsg = videoError);
   }
