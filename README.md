@@ -1,2 +1,2 @@
 
-very naive approach to youtube
+very naive approach to a video site
